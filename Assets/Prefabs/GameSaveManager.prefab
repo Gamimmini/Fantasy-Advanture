@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6517873747173929813
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5420200006574571407}
+  - component: {fileID: 5420200006574571400}
+  - component: {fileID: 6517873747438559511}
+  m_Layer: 0
+  m_Name: GameSaveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5420200006574571407
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6517873747173929813}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 198.52307, y: -465.57385, z: 17.571108}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5420200006574571400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6517873747173929813}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88a863d7e5fcd6647bc12b32a36fbfcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objects:
+  - {fileID: 11400000, guid: e5e5681a13e62a34a8b6c88ca699fda5, type: 2}
+  - {fileID: 11400000, guid: 67d1c7499cc75944eb7ed6dbdbe5c3e8, type: 2}
+  - {fileID: 11400000, guid: 41b2bb53004fe3141bd8f97a2107822b, type: 2}
+  - {fileID: 11400000, guid: 9f60a540caa27ad4182ceab928bb1fa9, type: 2}
+  - {fileID: 11400000, guid: f2e31eb8663ca9a42b646ed6726857b9, type: 2}
+--- !u!114 &6517873747438559511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6517873747173929813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 392906969acabaa4887cdf2c667e0c63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resetBoolValue:
+  - {fileID: 11400000, guid: e5e5681a13e62a34a8b6c88ca699fda5, type: 2}
+  - {fileID: 11400000, guid: f2e31eb8663ca9a42b646ed6726857b9, type: 2}
+  resetFloatValue:
+  - {fileID: 11400000, guid: 67d1c7499cc75944eb7ed6dbdbe5c3e8, type: 2}
+  - {fileID: 11400000, guid: 41b2bb53004fe3141bd8f97a2107822b, type: 2}
+  resetInventories:
+  - {fileID: 11400000, guid: 9f60a540caa27ad4182ceab928bb1fa9, type: 2}
