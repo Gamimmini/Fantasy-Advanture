@@ -4,13 +4,21 @@ using TMPro;
 using System.IO;
 public class EndGame : MonoBehaviour
 {
+    public DataManager dataManager;
+
+    [Header("Panel Object")]
     public GameObject winPanel;
     public GameObject LosePanel;
     public GameObject finishPanel;
+
+    [Header("Scene Load")]
     public string sceneToLoad;
-    public DataManager dataManager;
+
+    [Header("Text")]
     public TextMeshProUGUI winText;
     public string customString;
+
+    [Header("JSON")]
     private string scoreDataFilePath;
     void Start()
     {
@@ -24,7 +32,6 @@ public class EndGame : MonoBehaviour
 
     public void RestartGame()
     {
-        // Đây là hàm để load lại scene hiện tại
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
     }
@@ -47,7 +54,6 @@ public class EndGame : MonoBehaviour
 
     public void ChangeText()
     {
-        // Kiểm tra điều kiện và hiển thị winText nếu thỏa mãn
         if (dataManager.scores >= 4 && winText != null)
         {
             winText.text = "Your code: " + customString;

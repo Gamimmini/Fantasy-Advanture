@@ -3,33 +3,40 @@ using UnityEngine;
 
 public class Zombie : log
 {
+    [Header("Boundary")]
     public Collider2D boundary;
-    public float wanderInterval = 5f; // Thời gian lung tung giữa các hành động
+
+    [Header("Move Random Settings")]
+    public float wanderInterval = 5f; 
     protected float nextWanderTime;
     protected Vector3 targetPosition;
     protected float cooldownTimer = 0f;
-
+    protected float currentMoveSpeed = 1f;
+    protected float accelerationRate = 0.5f;
     public virtual void Update()
     {
-        // Kiểm tra xem cooldown đã hoàn thành chưa
         if (cooldownTimer <= 0f)
         {
             GetRandomTargetPosition();
-            cooldownTimer = 2f; 
+            cooldownTimer = 4f; 
         }
         else
         {
-            cooldownTimer -= Time.deltaTime; // Giảm thời gian cooldown mỗi frame.
+            cooldownTimer -= Time.deltaTime;
         }
     }
-    public override void CheckDistance()
+    protected override void CheckDistance()
     {
         if (boundary.bounds.Contains(target.transform.position)
              && Vector3.Distance(target.position, transform.position) > attackRadius)
         {
             if (currentState == EnemyState.idle || currentState == EnemyState.walk && currentState != EnemyState.stagger)
             {
-                Vector3 temp = Vector3.MoveTowards(transform.position, target.position, moveSpeed * 0.5f * Time.deltaTime);
+                currentMoveSpeed += Time.deltaTime * accelerationRate;
+
+               // Debug.Log("Current Move Speed: " + currentMoveSpeed);
+
+                Vector3 temp = Vector3.MoveTowards(transform.position, target.position, moveSpeed * 0.3f * currentMoveSpeed * Time.deltaTime);
                 changeAnim(temp - transform.position);
                 myRigidbody.MovePosition(temp);
                 ChangeState(EnemyState.walk);
@@ -46,6 +53,7 @@ public class Zombie : log
         else if (!boundary.bounds.Contains(target.transform.position))
         {
             MoveRandom();
+            currentMoveSpeed = 1f;
         }
     }
     public IEnumerator AttackCo()
@@ -57,23 +65,22 @@ public class Zombie : log
         currentState = EnemyState.walk;
         anim.SetBool("attack", false);
     }
-    // Tạo mục tiêu di chuyển lung tung trong boundary
     protected void GetRandomTargetPosition()
     {
         float randomX = Random.Range(boundary.bounds.min.x, boundary.bounds.max.x);
         float randomY = Random.Range(boundary.bounds.min.y, boundary.bounds.max.y);
         targetPosition = new Vector3(randomX, randomY, transform.position.z);
     }
-    protected void MoveRandom()
+    protected virtual void MoveRandom()
     {
+        /*
         if (Time.time >= nextWanderTime)
         {
             // Tạo một hướng lung tung ngẫu nhiên
             nextWanderTime = Time.time + wanderInterval;
         }
-
-        // Di chuyển theo hướng lung tung
-        Vector3 temp = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+        */
+        Vector3 temp = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * 0.2f * Time.deltaTime);
         changeAnim(temp - transform.position);
         myRigidbody.MovePosition(temp);
         ChangeState(EnemyState.walk);

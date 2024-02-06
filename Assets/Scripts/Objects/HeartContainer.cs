@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class HeartContainer : Powerup
 {
-
-
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player") && !other.isTrigger)

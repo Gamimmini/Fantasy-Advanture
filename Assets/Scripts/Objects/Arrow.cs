@@ -2,13 +2,21 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
+    [Header("Arrow Movement Settings")]
     public float speed;
+
+    [Header("Rigidbody Component")]
     public Rigidbody2D myRigidbody;
+
+    [Header("Arrow Lifetime Settings")]
     public float lifetime;
     private float lifetimeCounter;
-    //public float magicCost;
-    public float manaValue;
 
+    [Header("Mana Value Settings")]
+    public float manaValue;
+    // public float magicCost;
+
+    [Header("Collision Settings")]
     [SerializeField] public string otherTag;
     void Start()
     {

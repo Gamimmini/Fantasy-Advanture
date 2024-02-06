@@ -2,9 +2,10 @@
 
 public class Slime : Zombie
 {
+    [Header("Bulelt Prefab")]
     public GameObject blastPrefab;
     protected float slimeCooldownTimer = 0f;
-    public override void CheckDistance()
+    protected override void CheckDistance()
     {
         if (boundary.bounds.Contains(target.transform.position))
         {
@@ -40,14 +41,12 @@ public class Slime : Zombie
     {
         for (int i = 0; i < 12; i++)
         {
-            // Tạo đạn Trine Blast
             GameObject blastObject = Instantiate(blastPrefab, transform.position, Quaternion.identity);
             TrineBlast blast = blastObject.GetComponent<TrineBlast>();
 
             float blastAngle = i * 30f; 
 
-            // Xác định hướng bay và thiết lập thông tin cho đạn Trine Blast.
-            Vector2 blastDirection = Quaternion.Euler(0, 0, blastAngle) * Vector2.up; // Đạn sẽ bắn lên theo góc blastAngle
+            Vector2 blastDirection = Quaternion.Euler(0, 0, blastAngle) * Vector2.up;
             blast.Setup(blastDirection, Vector3.zero);
         }
     }
@@ -57,18 +56,28 @@ public class Slime : Zombie
         Vector3 currentTargetPosition = target.transform.position;
         Vector3 currentSlimePosition = transform.position;
 
-        // Tính toán hướng kéo target về Slime
         Vector3 directionToTarget = currentSlimePosition - currentTargetPosition;
 
-        // Xác định x và y cần thay đổi dựa trên tốc độ và thời gian
         float xChange = Mathf.Lerp(0, directionToTarget.x, targetFollowSpeed * Time.deltaTime);
         float yChange = Mathf.Lerp(0, directionToTarget.y, targetFollowSpeed * Time.deltaTime);
 
-        // Tạo vị trí mới của target
         Vector3 newTargetPosition = new Vector3(currentTargetPosition.x + xChange, currentTargetPosition.y + yChange, currentTargetPosition.z);
 
-        // Di chuyển target đến vị trí mới
         target.transform.position = newTargetPosition;
     }
+    protected override void MoveRandom()
+    {
+        /*
+         if (Time.time >= nextWanderTime)
+         {
+             // Tạo một hướng lung tung ngẫu nhiên
+             nextWanderTime = Time.time + wanderInterval;
+         }
+         */
 
+        Vector3 temp = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+        changeAnim(temp - transform.position);
+        myRigidbody.MovePosition(temp);
+        ChangeState(EnemyState.walk);
+    }
 }

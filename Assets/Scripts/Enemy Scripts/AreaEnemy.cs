@@ -4,7 +4,7 @@ public class AreaEnemy : log
 {
     public Collider2D boundary;
 
-    public override void CheckDistance()
+    protected override void CheckDistance()
     {
         if (Vector3.Distance(target.position, transform.position) <= chaseRadius
            && Vector3.Distance(target.position, transform.position) > attackRadius

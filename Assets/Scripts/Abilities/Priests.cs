@@ -4,29 +4,29 @@ using UnityEngine;
 public class Priests : MonoBehaviour
 {
     public static Priests Instance;
-    public bool priestsActive = false;
-    private float healthRestoreRate = 0.8f; // 4 máu 5 giây
-    private float manaRestoreRate = 6f; // 30 mana 5 giây
-    public float cooldownDuration = 60f; // Thời gian cooldown
-    public float cooldownTimer = 0f; // Đếm thời gian cooldown
-    
 
+    [Header("Priests")]
+    public bool priestsActive = false;
+    private float healthRestoreRate = 0.8f;
+    private float manaRestoreRate = 6f;
+    public float cooldownDuration = 60f;
+    public float cooldownTimer = 0f;
+
+    public GameObject recoveryEffect;
     private void Awake()
     {
         Instance = this;
     }
-    // Hàm để kích hoạt kỹ năng của Linh mục (Priests)
     public void ActivatePriestsSkill()
     {
         if (!priestsActive && cooldownTimer <= 0)
         {
-            Debug.Log("(Priests)");
+            //Debug.Log("(Priests)");
             priestsActive = true;
             StartCoroutine(RestoreHealthAndMana());
         }
     }
 
-    // Coroutine để gradually restore sức khỏe và ma lực trong vòng 5 giây
     public IEnumerator RestoreHealthAndMana()
     {
         float restoreTimer = 5f;
@@ -34,11 +34,9 @@ public class Priests : MonoBehaviour
         {
             if (priestsActive)
             {
-                // Phục hồi sức khỏe và ma lực từ từ
                 float healthToRestore = healthRestoreRate * Time.deltaTime;
                 float manaToRestore = manaRestoreRate * Time.deltaTime;
 
-                // Thêm giá trị đã phục hồi vào sức khỏe và ma lực của người chơi
                 DataManager.Instance.currentHealth = Mathf.Min(DataManager.Instance.currentHealth + healthToRestore, DataManager.Instance.heartContainers * 2f);
                 PlayerHealth.Instance.currentHealth = DataManager.Instance.currentHealth;
                 HeartManager.Instance.UpdateHearts();
@@ -47,25 +45,35 @@ public class Priests : MonoBehaviour
                 DataManager.Instance.SaveMana();
 
                 restoreTimer -= Time.deltaTime;
-                Debug.Log("Recovering health and magic power...");
+
+                if (recoveryEffect != null)
+                {
+                    recoveryEffect.SetActive(true);
+                }
+                //Debug.Log("Recovering health and magic power...");
             }
 
             yield return null;
         }
-
-        // Đặt lại trạng thái của kỹ năng
+        recoveryEffect.SetActive(false);
         priestsActive = false;
         cooldownTimer = cooldownDuration;
     }
 
     void Update()
     {
-        // Cập nhật bộ đếm thời gian cooldown
         if (cooldownTimer > 0)
         {
             cooldownTimer -= Time.deltaTime;
             SkillsManager.Instance.UpdateSkillImages();
-            Debug.Log("cooldown: " + cooldownTimer + " Seconds");
+            //Debug.Log("cooldown: " + cooldownTimer + " Seconds");
+        }
+        if (DataManager.Instance.currentHealth <= 0.0f)
+        {
+            if (recoveryEffect != null)
+            {
+                recoveryEffect.SetActive(false);
+            }
         }
     }
 }

@@ -15,7 +15,6 @@ public class ItemCountManager : MonoBehaviour
 
     public void SaveInventory()
     {
-        // Tạo một danh sách để lưu thông tin mỗi mục
         itemDataList.Clear();
 
         foreach (var itemInInventory in FindObjectsOfType<ItemInInventory>())
@@ -29,7 +28,6 @@ public class ItemCountManager : MonoBehaviour
 
         }
 
-        // Chuyển danh sách thành JSON và lưu vào tệp
         string json = JsonUtility.ToJson(itemDataList);
         File.WriteAllText("inventory.json", json);
         Debug.Log("Saved inventory to JSON: " + json);
@@ -39,11 +37,9 @@ public class ItemCountManager : MonoBehaviour
     {
         if (File.Exists("inventory.json"))
         {
-            // Đọc JSON từ tệp
             string json = File.ReadAllText("inventory.json");
             itemDataList = JsonUtility.FromJson<List<ItemData>>(json);
 
-            // Cập nhật count của mỗi mục trong danh sách
             foreach (var itemInInventory in FindObjectsOfType<ItemInInventory>())
             {
                 var itemData = itemDataList.Find(data => data.itemCode == itemInInventory.itemCode);

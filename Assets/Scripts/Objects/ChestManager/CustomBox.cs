@@ -3,8 +3,13 @@
 public class CustomBox : Interactable
 {
     public static CustomBox Instance;
+
+    [Header("Custom Item Settings")]
     public GameObject customItem;
+
+    [Header("Box ID")]
     public int id;
+
     [Header("Signals and dialogs")]
     public SignalSender raiseItem;
     public bool isOpen;

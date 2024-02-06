@@ -10,6 +10,7 @@ public class ArmorManager : MonoBehaviour
     }
     void Start()
     {
+        armorSlider.interactable = false;
         armorSlider.maxValue = DataManager.Instance.maxArmor;
         armorSlider.value = DataManager.Instance.currentArmor;
         //DataManager.Instance.currentArmor = DataManager.Instance.maxArmor;

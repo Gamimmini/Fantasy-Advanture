@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,10 +6,17 @@ using UnityEngine;
 //[System.Serializable]
 public class Inventory : ScriptableObject
 {
+    [Header("Current Item")]
     public Item currentItem;
+
+    [Header("Item List")]
     public List<Item> items = new List<Item>();
+
+    [Header("Key and Coins")]
     public int numberOfKeys;
     public int coins;
+
+    [Header("Magic")]
     public float maxMagic = 10;
     public float currentMagic;
 

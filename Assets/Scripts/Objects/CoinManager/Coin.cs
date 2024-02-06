@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Coin : Powerup
 {
+    [Header("Coin Value")]
     public int value;
     public void OnTriggerEnter2D(Collider2D other)
     {

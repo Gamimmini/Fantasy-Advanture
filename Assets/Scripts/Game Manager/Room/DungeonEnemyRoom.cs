@@ -2,8 +2,13 @@ using UnityEngine;
 
 public class DungeonEnemyRoom : DungeonRoom
 {
+    [Header("Door Management")]
     public Door[] doors;
+
+    [Header("Trigger State")]
     private bool hasBeenTriggered = false;
+
+    [Header("Room ID")]
     public int id;
     private void Start()
     {
@@ -42,7 +47,6 @@ public class DungeonEnemyRoom : DungeonRoom
         {
             if(!hasBeenTriggered)
             {
-                //Activate all enemies and pots
                 for (int i = 0; i < enemies.Length; i++)
                 {
                     ChangeActivation(enemies[i], true);
@@ -65,7 +69,6 @@ public class DungeonEnemyRoom : DungeonRoom
     {
         if (other.CompareTag("Player") && !other.isTrigger)
         {
-            //Deactivate all enemies and pots
             for (int i = 0; i < enemies.Length; i++)
             {
                 ChangeActivation(enemies[i], false);

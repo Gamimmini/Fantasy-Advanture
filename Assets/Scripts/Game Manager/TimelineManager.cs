@@ -3,10 +3,14 @@ using UnityEngine.Playables;
 
 public class TimelineManager : MonoBehaviour
 {
-    private bool fix = false;
+    [Header("Animator Settings")]
     public Animator playerAnimator;
-    public RuntimeAnimatorController playerAnim;
+    private RuntimeAnimatorController playerAnim;
+
+    [Header("Playable Director Settings")]
     public PlayableDirector director;
+
+    private bool fix = false;
 
     void OnEnable()
     {

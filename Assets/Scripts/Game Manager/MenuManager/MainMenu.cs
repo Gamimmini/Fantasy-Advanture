@@ -4,6 +4,7 @@ using System.IO;
 
 public class MainMenu : MonoBehaviour
 {
+    [Header("File Dât Path")]
     private string chestDataFilePath;
     private string coinDataFilePath;
     private string healthDataFilePath;
@@ -16,14 +17,15 @@ public class MainMenu : MonoBehaviour
     private string scoreDataFilePath;
     private string inventoryDataFilePath;
     private string armorDataFilePath;
+    //private string volumeDataPath = "Assets/MusicData/volumeData.json";
 
     [Header("Select Level")]
     public GameObject selectLevel;
     public GameObject goBtn;
     public GameObject guidePanel;
+    public GameObject editPanel;
     private void Start()
     {
-        // Xác định đường dẫn đến các tệp JSON riêng biệt
         chestDataFilePath = Path.Combine(Application.dataPath, "chestData.json");
         coinDataFilePath = Path.Combine(Application.dataPath, "coinData.json");
         healthDataFilePath = Path.Combine(Application.dataPath, "healthData.json");
@@ -40,6 +42,7 @@ public class MainMenu : MonoBehaviour
         selectLevel.SetActive(false);
         goBtn.SetActive(false);
         guidePanel.SetActive(false);
+        editPanel.SetActive(false);
     }
 
     public void NewGame()
@@ -54,7 +57,8 @@ public class MainMenu : MonoBehaviour
     public void SelecetLevel()
     {
         selectLevel.SetActive(true);
-        goBtn.SetActive(false);  
+        goBtn.SetActive(false); 
+ 
     }
     public void ReadGuide()
     {
@@ -62,7 +66,8 @@ public class MainMenu : MonoBehaviour
     }
     public void DeleteDataFiles()
     {
-        // Kiểm tra và xóa từng tệp JSON
+        Time.timeScale = 1f;
+
         DeleteFile(chestDataFilePath);
         DeleteFile(coinDataFilePath);
         DeleteFile(scoreDataFilePath);
@@ -71,7 +76,8 @@ public class MainMenu : MonoBehaviour
         DeleteFile(shopItemQuantityDataFilePath);
         DeleteFile(inventoryDataFilePath);
         DeleteFile(armorDataFilePath);
-        // Xóa tệp JSON cho dữ liệu của cửa
+        //DeleteVolumeDataFile();
+
         string doorDataDirectory = Path.Combine(Application.dataPath, "DataDoor");
         if (Directory.Exists(doorDataDirectory))
         {
@@ -123,5 +129,4 @@ public class MainMenu : MonoBehaviour
             //Debug.Log("Deleted " + Path.GetFileName(filePath));
         }
     }
-
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DamageOnContact : MonoBehaviour
 {
@@ -11,7 +9,6 @@ public class DamageOnContact : MonoBehaviour
     {
         if(other.gameObject.CompareTag(otherString))
         {
-            // kiểm tra xem có máu không
             GenericHealth temp = other.gameObject.GetComponent<GenericHealth>();
             if (temp)
             {

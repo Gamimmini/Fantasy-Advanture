@@ -10,6 +10,7 @@ public class TreasureChest : Interactable
     public InventoryForPlayer playerInventory;
     public int id;
 
+    [Header("Status Treasure Chest")]
     public bool isOpen;
     public bool RuntimeValue;
 
@@ -76,18 +77,12 @@ public class TreasureChest : Interactable
     }
     public virtual void OpenChest()
     {
-        // Dialog window on
         dialogBox.SetActive(true);
-        // dialog text = contents text
         dialogText.text = contents.itemDescription;
-        // add contents to the inventory 
         playerInventory.currentItem = contents;
         InventoryForPlayer.Instance.AddItem(contents, itemCode);
-        // Raise the signal to the player to animate
         raiseItem.Raise();
-        // raise the context clue
         context.Raise();
-        // set the chest to opened
         isOpen = true;
         anim.SetBool("opened", true);
         //storedOpen.RuntimeValue = isOpen;
@@ -99,10 +94,9 @@ public class TreasureChest : Interactable
     }
     public void ChestAlreadyOpen()
     {
-        // Dialog off
+
         dialogBox.SetActive(false);
         //playerInventory.currentItem = null;
-        // raise the signal to the player to stop animating
         raiseItem.Raise();
     }
     private void OnTriggerEnter2D(Collider2D other)

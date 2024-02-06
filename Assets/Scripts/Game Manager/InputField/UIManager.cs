@@ -4,13 +4,14 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("Select Level Settings")]
     public TMP_InputField inputField;
     public GameObject goBtn;
+
     public MainMenu mainMenu;
 
     private void Start()
     {
-        // Gắn hàm xử lý khi thay đổi nội dung trong InputField
         inputField.onValueChanged.AddListener(OnInputFieldValueChanged);
     }
 

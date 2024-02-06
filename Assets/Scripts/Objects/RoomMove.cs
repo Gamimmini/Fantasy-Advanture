@@ -5,9 +5,12 @@ using UnityEngine.UI;
 
 public class RoomMove : MonoBehaviour
 {
+    [Header("Camera and Player Movement")]
     //public Vector2 cameraChange;
     public Vector3 playerChange;
     private CameraMovement cam;
+
+    [Header("Text Notification")]
     public bool needText;
     public string placeName;
     public GameObject text;

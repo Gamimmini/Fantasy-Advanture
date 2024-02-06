@@ -2,10 +2,13 @@
 public class ItemInInventory : MonoBehaviour
 {
     public static ItemInInventory Instance;
-    
+
+    [Header("Item Settings")]
     public InventoryItem itemProfile;
-    public int count = 0;
     public ItemCode itemCode;
+
+    [Header("Count Settings")]
+    public int count = 0;
     private void Awake()
     {
         Instance = this;

@@ -1,10 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TurretEnemy : log
 {
+    [Header("Prefabs")]
     public GameObject projectile;
+
+    [Header("Fire Settings")]
     public float fireDelay;
     private float fireDelaySeconds;
     public bool canFire = true;
@@ -16,10 +17,11 @@ public class TurretEnemy : log
         {
             canFire = true;
             fireDelaySeconds = fireDelay;
+
         }
     }
 
-    public override void CheckDistance()
+    protected override void CheckDistance()
     {
         if (Vector3.Distance(target.position, transform.position) <= chaseRadius
            && Vector3.Distance(target.position, transform.position) > attackRadius)

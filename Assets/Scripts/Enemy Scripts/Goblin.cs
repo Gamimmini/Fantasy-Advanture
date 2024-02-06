@@ -1,8 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Goblin : Zombie
 {
-    public override void CheckDistance()
+    protected override void CheckDistance()
     {
         if (boundary.bounds.Contains(target.transform.position)
              && Vector3.Distance(target.position, transform.position) > attackRadius)
@@ -27,5 +27,19 @@ public class Goblin : Zombie
         {
             MoveRandom();
         }
-    }    
+    }
+    protected override void MoveRandom()
+    {
+        /*
+         if (Time.time >= nextWanderTime)
+         {
+             // Tạo một hướng lung tung ngẫu nhiên
+             nextWanderTime = Time.time + wanderInterval;
+         }
+         */
+        Vector3 temp = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+        changeAnim(temp - transform.position);
+        myRigidbody.MovePosition(temp);
+        ChangeState(EnemyState.walk);
+    }
 }

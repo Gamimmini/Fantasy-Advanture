@@ -27,27 +27,22 @@ public class Enemy : MonoBehaviour
     public LootTable thisLoot;
 
     [Header("Death Signals")]
-    public SignalSender roomSignal; // Tín hiệu được gửi khi kẻ thù chết
+    public SignalSender roomSignal; 
 
 
     protected void Awake()
     {
         // health = maxHealth;
         LoadHealth();
-        // Gán vị trí ban đầu của kẻ thù
         homePosition = transform.position;  
         healthBar = GetComponentInChildren<FloatingHealthBar>();
     }
     private void OnEnable()
     {
-        // Đặt lại vị trí của kẻ thù khi nó được kích hoạt
         transform.position = homePosition; 
         //health = maxHealth;
         //healthBar.UpdateHealthBar(health, maxHealth);
         currentState = EnemyState.idle;
-    }
-    public virtual void Start()
-    {
     }
     public virtual void TakeDamage(float damage)
     {
@@ -56,7 +51,7 @@ public class Enemy : MonoBehaviour
         SaveHealth();
         if (health < 0)
         {
-            health = 0; // Đảm bảo health không thể âm.
+            health = 0; 
         }
         if (health <= 0)
         {
@@ -65,32 +60,29 @@ public class Enemy : MonoBehaviour
             MakeLoot();
             if (roomSignal != null)
             {
-                // Gửi tín hiệu khi kẻ thù chết.
                 roomSignal.Raise();
             }
             this.gameObject.SetActive(false); 
         }    
     }
-    // Tạo các vật phẩm thưởng
-    private void MakeLoot()
+    protected virtual void MakeLoot()
     {
         if (thisLoot != null)
         {
-            // Lấy một vật phẩm thưởng ngẫu nhiên từ danh sách thưởng
+
             Powerup current = thisLoot.LootPowerup(); 
             if (current != null)
             {
-                Instantiate(current.gameObject, transform.position, Quaternion.identity); // Tạo vật phẩm thưởng
+                Instantiate(current.gameObject, transform.position, Quaternion.identity); 
             }
         }
     }
-    // Khi sức khỏe dưới 0, kích hoạt hiệu ứng chết
-    private void DeathEffect()
+    protected virtual void DeathEffect()
     {
         if(deathEffect != null)
         {
-            GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity); // Tạo hiệu ứng chết
-            Destroy(effect, deathEffectDelay); // Hủy hiệu ứng sau một khoảng thời gian
+            GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity); 
+            Destroy(effect, deathEffectDelay); 
         }    
     }    
     public void Knock(Rigidbody2D myRigidbody, float knockTime)
@@ -104,67 +96,52 @@ public class Enemy : MonoBehaviour
         {
 
             yield return new WaitForSeconds(knockTime);
-            // Đặt vận tốc của Rigidbody về 0 để kết thúc knockback
             myRigidbody.velocity = Vector2.zero; 
             currentState = EnemyState.idle;
             myRigidbody.velocity = Vector2.zero;
         }
     }
-    // Save enemy data to a JSON file
     public void SaveHealth()
     {
         if (id > 1000)
         {
-            // Không lưu dữ liệu cho các ID lớn hơn 1000
             return;
         }
-        // Xác định đường dẫn đầy đủ đến thư mục "EnemyHealthData" trong thư mục Assets
         string dataPath = Application.dataPath + "/EnemyHealthData";
 
-        // Kiểm tra nếu thư mục không tồn tại, hãy tạo nó
         if (!Directory.Exists(dataPath))
         {
             Directory.CreateDirectory(dataPath);
         }
 
-        // Tạo đối tượng chứa thông tin sức khỏe
         EnemyHealthState healthState = new EnemyHealthState
         {
             id = this.id,
             health = this.health
         };
 
-        // Chuyển đối tượng thành chuỗi JSON
         string json = JsonUtility.ToJson(healthState);
 
-        // Xác định đường dẫn đầy đủ đến tệp JSON
         string filePath = Path.Combine(dataPath, "EnemyHealth_" + id + ".json");
 
-        // Ghi dữ liệu JSON vào tệp
         File.WriteAllText(filePath, json);
     }
 
     public void LoadHealth()
     {
-        // Xác định đường dẫn đầy đủ đến thư mục "EnemyHealthData" trong thư mục Assets
         string dataPath = Application.dataPath + "/EnemyHealthData";
 
-        // Xác định đường dẫn đầy đủ đến tệp JSON
         string filePath = Path.Combine(dataPath, "EnemyHealth_" + id + ".json");
 
         if (File.Exists(filePath))
         {
-            // Đọc dữ liệu từ tệp JSON
             string json = File.ReadAllText(filePath);
 
-            // Chuyển đổi dữ liệu JSON thành đối tượng sức khỏe
             EnemyHealthState healthState = JsonUtility.FromJson<EnemyHealthState>(json);
             this.health = healthState.health;
 
-            // Cập nhật thanh máu sau khi load sức khỏe
             healthBar.UpdateHealthBar(health, maxHealth);
 
-            // Kiểm tra nếu health dưới 0, đặt health thành 0 và tắt GameObject
             if (health <= 0)
             {
                 health = 0;

@@ -4,12 +4,17 @@
 public class GenericDamage : MonoBehaviour
 {
     public static GenericDamage Instance;
-    // Lượng sát thương gây ra khi va chạm.
+
+
+    [Header("Damage Settings")]
     [SerializeField] public float damage;
+
+    [Header("Target Tag")]
     [SerializeField] public string otherTag;
+
     protected Collider2D triggerCollider;
 
-
+    [Header("Damage Multiplier")]
     public static float damageMultiplier = 1f;
     private void Awake()
     {
@@ -17,7 +22,7 @@ public class GenericDamage : MonoBehaviour
     }
     public void ActivateSkill()
     {
-        // Đặt Damage tăng gấp đôi
+
         damageMultiplier = 1.5f;
         Debug.Log("ActivateSkill is Called: ");
     }
@@ -30,7 +35,7 @@ public class GenericDamage : MonoBehaviour
             {
                 float alteredDamage = damage * damageMultiplier;
                 temp.Damage(alteredDamage);
-                Debug.Log("Damage: " + alteredDamage);
+                //Debug.Log("Damage: " + alteredDamage);
             }
             if (other.GetComponent<Collider2D>().isTrigger)
             {

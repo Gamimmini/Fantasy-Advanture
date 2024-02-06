@@ -36,7 +36,6 @@ public class PhysicalInventoryItem : MonoBehaviour
     {
         if (itemInInventoryCount && thisItem)
         {
-            // Tăng giá trị count trong ItemInInventory
             itemInInventoryCount.IncreaseCount(); 
             InventoryForPlayer.Instance.CountAndAddItems();
             InventoryForPlayer.Instance.SaveInventoryData();

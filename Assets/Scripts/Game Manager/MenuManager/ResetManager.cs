@@ -5,10 +5,14 @@ using UnityEngine;
 
 public class ResetManager : MonoBehaviour
 {
+    [Header("Boolean Values to Reset")]
     public List<BoolValue> resetBoolValue;
-    public List<FloatValue> resetFloatValue;
-    public List<Inventory> resetInventories; 
 
+    [Header("Float Values to Reset")]
+    public List<FloatValue> resetFloatValue;
+
+    [Header("Inventories to Reset")]
+    public List<Inventory> resetInventories;
     public void ResetBoolValue()
     {
         foreach (var boolValue in resetBoolValue)

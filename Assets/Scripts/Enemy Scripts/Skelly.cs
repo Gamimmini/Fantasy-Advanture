@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Skelly : Zombie
 {
+    [Header("Health Settings")]
     public float lowHealthThreshold = 0.3f;
     private float healthRestoreRate = 0.8f;
     public bool isRestoringHealth = false;
@@ -14,7 +15,7 @@ public class Skelly : Zombie
         base.Update();
         CheckHealth();
     }
-    public override void CheckDistance()
+    protected override void CheckDistance()
     {
         if(!isTakingDamage)
         {
@@ -44,7 +45,6 @@ public class Skelly : Zombie
         }    
         else if (isTakingDamage)
         {
-            // Di chuyển về homePosition
             Debug.Log("Moving towards healTransform");
             Vector3 temp = Vector3.MoveTowards(transform.position, healTransform.position, moveSpeed * 5 * Time.deltaTime);
             changeAnim(temp - transform.position);
@@ -52,7 +52,6 @@ public class Skelly : Zombie
         }
         else
         {
-            // Random movement when not taking damage
             MoveRandom();
         }
     }    
@@ -79,11 +78,9 @@ public class Skelly : Zombie
     {
         while (health < maxHealth)
         {
-            // Hồi máu (1 máu mỗi giây)
             health += healthRestoreRate * Time.deltaTime;
             health = Mathf.Min(health, maxHealth);
 
-            // Cập nhật thanh máu (nếu cần)
             if (healthBar != null)
             {
                 healthBar.UpdateHealthBar(health, maxHealth);
@@ -97,5 +94,20 @@ public class Skelly : Zombie
             isRestoringHealth = true;
             isTakingDamage = false;
         }
+    }
+    protected override void MoveRandom()
+    {
+        /*
+        if (Time.time >= nextWanderTime)
+        {
+            // Tạo một hướng lung tung ngẫu nhiên
+            nextWanderTime = Time.time + wanderInterval;
+        }
+        */
+
+        Vector3 temp = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+        changeAnim(temp - transform.position);
+        myRigidbody.MovePosition(temp);
+        ChangeState(EnemyState.walk);
     }
 }

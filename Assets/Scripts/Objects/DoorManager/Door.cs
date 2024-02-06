@@ -7,6 +7,7 @@ public class Door : Interactable
     public string doorID;
     public DoorType thisDoortype;
     public bool open = false;
+
     public InventoryForPlayer playerInventory;
     public SpriteRenderer doorSprite;
     public BoxCollider2D physicsCollider;
@@ -30,10 +31,8 @@ public class Door : Interactable
             {
                 if (playerInventory.CheckForItem(silverKey))
                 {
-                    // Giảm số lượng SilverKey đi 1
                     playerInventory.DecreaseItemByType("Silver");
 
-                    // Mở cửa
                     Open();
                     SaveDoorState();
                 }
@@ -42,10 +41,8 @@ public class Door : Interactable
             {
                 if (playerInventory.CheckForItem(bronzeKey))
                 {
-                    // Giảm số lượng SilverKey đi 1
                     playerInventory.DecreaseItemByType("Bronze");
 
-                    // Mở cửa
                     Open();
                     SaveDoorState();
                 }
@@ -54,10 +51,8 @@ public class Door : Interactable
             {
                 if (playerInventory.CheckForItem(goldKey))
                 {
-                    // Giảm số lượng SilverKey đi 1
                     playerInventory.DecreaseItemByType("Gold");
 
-                    // Mở cửa
                     Open();
                     SaveDoorState();
                 }

@@ -2,15 +2,19 @@
 
 public class GenericHealth : MonoBehaviour
 {
-    
+    [Header("Health Settings")]
     public float currentHealth;
-   
+
+    [Header("End Game Screen")]
     public GameObject endGameScreen;
 
+    [Header("Armor Settings")]
     public float currentArmor;
     protected float maxArmor;
 
-
+    [Header("Damage Effect")]
+    public GameObject damageEffect;
+    private float damageEffectDuration = 0.4f;
     void Start()
     {
         currentHealth = DataManager.Instance.currentHealth;
@@ -18,12 +22,10 @@ public class GenericHealth : MonoBehaviour
         maxArmor = DataManager.Instance.maxArmor;
         InvokeRepeating("RecoverArmor", 0f, 3f);
     }
-    // hồi phục sức khỏe với lượng sức khỏe cụ thể
     public virtual void Heal(float amountToHeal)
     {
         currentHealth += amountToHeal;
 
-        // Đảm bảo sức khỏe không vượt quá giá trị tối đa.
         if (currentHealth > DataManager.Instance.currentHealth)
         {
             currentHealth = DataManager.Instance.currentHealth;
@@ -49,24 +51,40 @@ public class GenericHealth : MonoBehaviour
            
 
     }    
-    // hồi phục đầy đủ sức khỏe.
     public virtual void FullHeal()
     {
         currentHealth = DataManager.Instance.currentHealth;
     }
+  
 
-    // gây sát thương với lượng sát thương cụ thể.
     public virtual void Damage(float amountToDamage)
     {
+        //Debug.Log("Phương thức Damage được gọi với lượng: " + amountToDamage);
+
+        if (amountToDamage > 0)
+        {
+            //Debug.Log("Đang nhận sát thương!");
+            if (damageEffect != null && DataManager.Instance.currentHealth > 0)
+            {
+                //Debug.Log("Kích hoạt hiệu ứng sát thương");
+                damageEffect.SetActive(true);
+                Invoke("DeactivateDamageEffect", damageEffectDuration);
+            }
+            if (DataManager.Instance.currentHealth <= 0 || currentHealth <= 0)
+            {
+                damageEffect.SetActive(false);
+            }
+        }
+        
+
         if (currentArmor > 0)
         {
-            // Trừ giá trị sát thương khỏi giá trị giáp.
             currentArmor -= amountToDamage;
-            // Nếu giá trị giáp nhỏ hơn hoặc bằng 0, đặt nó thành 0.
             if (currentArmor <= 0)
             {
                 currentArmor = 0;
                 ArmorManager.Instance.HandleArmorReduction();
+              
             }
             DataManager.Instance.currentArmor = currentArmor;
             ArmorManager.Instance.HandleArmorReduction();
@@ -74,10 +92,8 @@ public class GenericHealth : MonoBehaviour
         }
         else if (currentArmor <= 0)
         {
-            // Nếu không còn giáp, trừ sát thương cho sức khỏe.
             currentHealth -= amountToDamage;
             DataManager.Instance.currentHealth = currentHealth;
-            // Đảm bảo sức khỏe không nhỏ hơn 0.
             if (currentHealth < 0)
             {
                 currentHealth = 0;
@@ -88,36 +104,46 @@ public class GenericHealth : MonoBehaviour
             HeartManager.Instance.UpdateHearts();
             DataManager.Instance.SaveHealth();
         }
-        else if(currentHealth < 0)
+        if(currentHealth <= 0 || DataManager.Instance.currentHealth <= 0)
         {
             currentHealth = 0;
             CheckHealthStatus();
         }    
     }
 
+    private void DeactivateDamageEffect()
+    {
+        if (damageEffect != null)
+        {
+            damageEffect.SetActive(false);
+        }
+    }
 
-    // giết ngay lập tức
     public virtual void InstantDeath()
     {
         currentHealth = 0;
     }
     private void CheckHealthAndHandleEndGame()
     {
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 || DataManager.Instance.currentHealth <= 0)
         {
-            // Kích hoạt màn hình EndGame (nếu có)
             if (endGameScreen != null)
             {
                 endGameScreen.SetActive(true);
             }
-            
+            //Destroy(gameObject);
+           Time.timeScale = 0f;
         }
     }
     private void CheckHealthStatus()
     {
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 || DataManager.Instance.currentHealth <= 0)
         {
             currentHealth = 0;
+            if (endGameScreen != null)
+            {
+                endGameScreen.SetActive(true);
+            }
             CheckHealthAndHandleEndGame();
         }
     }

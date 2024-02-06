@@ -6,38 +6,33 @@ public class log : Enemy
 
     [Header("Target Variables")]
     public Transform target;
-    public float chaseRadius;  // Bán kính để bắt đầu truy đuổi mục tiêu
-    public float attackRadius;  // Bán kính để tấn công mục tiêu
-    //public Transform homePosition;
+    public float chaseRadius; 
+    public float attackRadius;  
 
     [Header("Animator")]
     public Animator anim;
 
-    public override void Start()
+    protected virtual void Start()
     {
-        base.Start();
         currentState = EnemyState.idle;
         myRigidbody = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         target = GameObject.FindWithTag("Player").transform;
         //anim.SetBool("wakeUp", true);
     }
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         CheckDistance();
     }
-    // Kiểm tra khoảng cách đến mục tiêu và thực hiện hành động tương ứng.
-    public virtual void CheckDistance()
+    protected virtual void CheckDistance()
     {
         if(Vector3.Distance(target.position,transform.position) <= chaseRadius
             && Vector3.Distance(target.position,transform.position) > attackRadius)
         {
             if (currentState == EnemyState.idle || currentState == EnemyState.walk && currentState != EnemyState.stagger)
             {
-                // Tính toán vị trí mới của Enemy để tiến lại gần người chơi
                 Vector3 temp = Vector3.MoveTowards(transform.position, target.position, moveSpeed * 1.5f * Time.deltaTime);
                 
-                // Cập nhật hình ảnh và vị trí của Enemy
                 changeAnim(temp - transform.position);
                 myRigidbody.MovePosition(temp);
                 

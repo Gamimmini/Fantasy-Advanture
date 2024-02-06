@@ -1,10 +1,12 @@
-using System.Collections;
+
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HeartManager : MonoBehaviour
 {
     public static HeartManager Instance;
+
+    [Header("Heart Manager Settings")]
     public Image[] hearts;
     public Sprite fullHeart;
     public Sprite halfFullHeart;

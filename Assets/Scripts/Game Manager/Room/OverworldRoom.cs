@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class OverworldRoom : Room
 {
+    [Header("Overworld Room Settings")]
     public List<GameObject> objects;
     public static OverworldRoom Instance;
 

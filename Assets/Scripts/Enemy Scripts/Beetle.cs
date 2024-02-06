@@ -3,10 +3,13 @@ using UnityEngine;
 
 public class Beetle : log
 {
+    [Header("Movement Patrol Points")]
     public GameObject pointA;
     public GameObject pointB;
     public GameObject pointC;
     public GameObject pointD;
+
+    [Header("Enemy Movement Points")]
     public GameObject point1;
     public GameObject point2;
     public GameObject point3;
@@ -15,9 +18,10 @@ public class Beetle : log
     private Transform playerPoint;
     private bool hasAttacked = false;
 
-    public float resetInterval = 30.0f; // Time interval to reset currentPoint
-    private float lastResetTime; // Track the last reset time
-    public override void Start()
+    [Header("Reset Interval")]
+    public float resetInterval = 30.0f; 
+    private float lastResetTime;
+    protected override void Start()
     {
         base.Start();
         lastResetTime = Time.time;
@@ -30,11 +34,11 @@ public class Beetle : log
         {
             if (Time.time - lastResetTime >= resetInterval)
             {
-                currentPoint = pointA.transform; // Reset currentPoint to pointA
-                lastResetTime = Time.time; // Update the last reset time
+                currentPoint = pointA.transform; 
+                lastResetTime = Time.time; 
             }
-            // Lựa chọn một trong các điểm ngẫu nhiên từ point1 đến point4
-            int randomPointIndex = Random.Range(1, 5); // 1 <= randomPointIndex < 5
+   
+            int randomPointIndex = Random.Range(1, 5); 
 
             switch (randomPointIndex)
             {
@@ -51,14 +55,14 @@ public class Beetle : log
                     playerPoint = point4.transform;
                     break;
                 default:
-                    playerPoint = point1.transform; // Mặc định là point1 nếu có lỗi xảy ra
+                    playerPoint = point1.transform;
                     break;
             }
 
-            yield return new WaitForSeconds(3.5f); // Đợi 3.5 giây trước khi chọn lại điểm ngẫu nhiên
+            yield return new WaitForSeconds(3.5f); 
         }
     }
-    public override void CheckDistance()
+    protected override void CheckDistance()
     {
         if (!hasAttacked)
         {
@@ -85,7 +89,6 @@ public class Beetle : log
             {
                 if (Vector3.Distance(transform.position, currentPoint.position) < 1.2f)
                 {
-                    // Đến điểm A hoặc B, thực hiện chuyển đổi currentPoint
                     if (currentPoint == pointA.transform)
                     {
                         currentPoint = pointB.transform;
@@ -149,9 +152,8 @@ public class Beetle : log
     }
     public override void TakeDamage(float damage)
     {
-        base.TakeDamage(damage); // Gọi phương thức TakeDamage của class cha
+        base.TakeDamage(damage);
 
-        // Đặt hasAttacked thành false khi kẻ thù bị trừ máu
         hasAttacked = false;
     }
 

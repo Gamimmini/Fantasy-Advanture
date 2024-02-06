@@ -31,7 +31,7 @@ public class InventoryManager : MonoBehaviour
     {
         if (inventoryForPlayer)
         {
-            List<ItemInInventory> inventoryItems = inventoryForPlayer.items; // Truy cập danh sách items từ InventoryForPlayer
+            List<ItemInInventory> inventoryItems = inventoryForPlayer.items; 
 
             for (int i = 0; i < inventoryItems.Count; i++)
             {
@@ -71,7 +71,7 @@ public class InventoryManager : MonoBehaviour
             Destroy(inventoryPanel.transform.GetChild(i).gameObject);
         }
     }
-    // Hàm khởi tạo currentItem
+
     public void SetCurrentItem(InventoryItem newItem)
     {
         currentItem = newItem;
@@ -111,19 +111,16 @@ public class InventoryManager : MonoBehaviour
                     }
                     else if (currentItem.ItemType == "Berserker" || currentItem.ItemType == "invulnerable" || currentItem.ItemType == "Priests")
                     {
-                        // Kiểm tra berserkerCooldownTimer ở class Berserker
                         if (Berserker.Instance.isBerserkerActive == false && Berserker.Instance.berserkerCooldownTimer <= 0
                             && Priests.Instance.priestsActive == false && Priests.Instance.cooldownTimer <= 0
                             && PlayerHealth.Instance.isInvulnerable == false && PlayerHealth.Instance.cooldownTimer <= 0)
                         {
-                            // Thực hiện xử lý nếu cooldown đã kết thúc
                             Skills.Instance.ProcessItem(currentItem);
                             
                         }
                         else
                         {
-                            // Hiển thị thông báo hoặc thực hiện xử lý khác nếu cooldown chưa kết thúc
-                            Debug.Log("skill is on cooldown.");
+                            //Debug.Log("skill is on cooldown.");
                         }
                     }
                     else if (currentItem.ItemType == "Bow")
@@ -138,7 +135,6 @@ public class InventoryManager : MonoBehaviour
                     {
                         Skills.Instance.ProcessItem(currentItem);
                     }
-                    // Giảm giá trị của count trong ItemInInventory đi 1
                     if (currentItem.ItemType != "Berserker" && currentItem.ItemType != "Bow" 
                         && currentItem.ItemType != "invulnerable" && currentItem.ItemType != "Priests"
                         && currentItem.ItemType != "Poison" && currentItem.ItemType != "Scepter")

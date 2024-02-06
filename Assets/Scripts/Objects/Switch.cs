@@ -2,11 +2,16 @@ using UnityEngine;
 
 public class Switch : MonoBehaviour
 {
+    [Header("Switch Settings")]
     public bool active;
-    //public BoolValue storedValue;
+
+    [Header("Sprites")]
     public Sprite activeSprite;
-    private SpriteRenderer mySprite;
+
+    [Header("References")]
     public Door thisDoor;
+
+    private SpriteRenderer mySprite;
     void Start()
     {
         mySprite = GetComponent<SpriteRenderer>();

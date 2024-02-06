@@ -20,7 +20,7 @@ public class InventoryForPlayer : MonoBehaviour
     public InventoryManager inventoryManager;
     [Header("Path")]
     public string inventoryDataPath;
-
+    [Header("List item Count")]
     public List<ItemInInventoryData> itemCounts = new List<ItemInInventoryData>();
     private void Awake()
     {
@@ -35,19 +35,14 @@ public class InventoryForPlayer : MonoBehaviour
         SaveInventoryData();
     }
 
-    // Hàm này đếm và thêm các GameObject con vào danh sách
     public void CountAndAddItems()
     {
-        // Xóa danh sách hiện tại trước khi đếm lại
         items.Clear();
 
-        // Lặp qua tất cả các GameObject con của InventoryForPlayer
         foreach (Transform child in transform)
         {
-            // Kiểm tra xem GameObject con có component ItemInInventory không
             ItemInInventory itemInInventory = child.GetComponent<ItemInInventory>();
 
-            // Nếu có, thêm vào danh sách nếu count > 0
             if (itemInInventory != null && itemInInventory.count > 0)
             {
                 items.Add(itemInInventory);
@@ -97,7 +92,6 @@ public class InventoryForPlayer : MonoBehaviour
     {
         List<ItemInInventoryData> itemCountDataList = new List<ItemInInventoryData>();
 
-        // Lặp qua danh sách các mục và lấy thông tin về số lượng
         foreach (ItemInInventory itemInInventory in FindObjectsOfType<ItemInInventory>())
         {
             ItemInInventoryData itemCountData = new ItemInInventoryData
@@ -108,10 +102,8 @@ public class InventoryForPlayer : MonoBehaviour
             itemCountDataList.Add(itemCountData);
         }
 
-        // Chuyển đổi danh sách này thành chuỗi JSON
         string jsonData = JsonConvert.SerializeObject(itemCountDataList);
 
-        // Lưu chuỗi JSON vào tệp
         File.WriteAllText(inventoryDataPath, jsonData);
     }
 
@@ -119,18 +111,15 @@ public class InventoryForPlayer : MonoBehaviour
     {
         if (File.Exists(inventoryDataPath))
         {
-            // Đọc chuỗi JSON từ tệp
             string jsonData = File.ReadAllText(inventoryDataPath);
 
-            // Chuyển đổi chuỗi JSON thành danh sách các mục và số lượng
+        
             List<ItemInInventoryData> itemCountDataList = JsonConvert.DeserializeObject<List<ItemInInventoryData>>(jsonData);
 
-            //Debug.Log("Loaded JSON Data: " + jsonData); // In chuỗi JSON để kiểm tra
+            //Debug.Log("Loaded JSON Data: " + jsonData);
 
-            // Tìm tất cả các ItemInInventory trong scene
             ItemInInventory[] allItemInInventory = FindObjectsOfType<ItemInInventory>();
 
-            // Cập nhật số lượng của từng mục dựa trên dữ liệu đã đọc
             foreach (ItemInInventoryData itemCountData in itemCountDataList)
             {
                 ItemInInventory itemInInventory = Array.Find(allItemInInventory, item => item.itemProfile.itemCode == itemCountData.itemCode);
@@ -157,9 +146,9 @@ public class InventoryForPlayer : MonoBehaviour
             if (itemInInventory.itemProfile.ItemType == itemType)
             {
                 itemInInventory.DecreaseCount();
-                CountAndAddItems(); // Cập nhật danh sách item
-                SaveInventoryData(); // Lưu dữ liệu Inventory
-                break; // Đã tìm thấy và giảm count, có thể thoát khỏi vòng lặp
+                CountAndAddItems(); 
+                SaveInventoryData(); 
+                break;
             }
         }
     }

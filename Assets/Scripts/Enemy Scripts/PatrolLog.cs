@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class PatrolLog : log
 {
+    [Header("Patrol Path")]
     public Transform[] path;
     public int currentPoint;
     public Transform currentGoal;
     public float roundingDistance;
 
-    public override void CheckDistance()
+    protected override void CheckDistance()
     {
         if (Vector3.Distance(target.position, transform.position) <= chaseRadius
             && Vector3.Distance(target.position, transform.position) > attackRadius)

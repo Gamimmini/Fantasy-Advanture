@@ -19,6 +19,7 @@ public class MagicManager : MonoBehaviour
     
     void Start()
     {
+        magicSlider.interactable = false;
         magicSlider.maxValue = DataManager.Instance.maxMana;
         magicSlider.value = DataManager.Instance.maxMana;
         DataManager.Instance.currentMana = DataManager.Instance.maxMana;

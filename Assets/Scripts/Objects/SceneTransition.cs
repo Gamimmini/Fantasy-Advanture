@@ -17,6 +17,7 @@ public class SceneTransition : MonoBehaviour
     public GameObject fadeInPanel;
     public GameObject fadeOutPanel;
     public float fadeWait;
+    //public AudioSource audioSource;
 
     private void Awake()
     {
@@ -44,7 +45,8 @@ public class SceneTransition : MonoBehaviour
         yield return new WaitForSeconds(fadeWait);
         ResetCameraBounds();
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneToLoad);
-        while(!asyncOperation.isDone)
+        //audioSource.Play();
+        while (!asyncOperation.isDone)
         {
             yield return null;
         }    

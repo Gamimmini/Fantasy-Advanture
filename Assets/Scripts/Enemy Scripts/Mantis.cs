@@ -2,21 +2,21 @@
 
 public class Mantis : Zombie
 {
-    [Header("Color Change")]
+    [Header("Status Change")]
     public Color lowHealthColor;
-    // Máu dưới 50% sẽ thay đổi màu
-    public float lowHealthThreshold = 0.3f; 
-
+    public float lowHealthThreshold = 0.3f;
     public SpriteRenderer mySprite;
+    
+    [Header("Speed Change")]
     public static float speedMultiplier = 1f;
 
-    public override void Start()
+    protected override void Start()
     {
         base.Start();
         mySprite = GetComponent<SpriteRenderer>();
     }
-  
-    public override void CheckDistance()
+
+    protected override void CheckDistance()
     {
         if (boundary.bounds.Contains(target.transform.position)
              && Vector3.Distance(target.position, transform.position) > attackRadius)
@@ -44,7 +44,7 @@ public class Mantis : Zombie
     }
     public override void TakeDamage(float damage)
     {
-        base.TakeDamage(damage); // Gọi phương thức TakeDamage của class cha
+        base.TakeDamage(damage); 
         CheckHealth();
         //Debug.Log("CheckHealth is Called: ");
     }
@@ -61,5 +61,18 @@ public class Mantis : Zombie
     {
         speedMultiplier = 3f;
     }
-
+    protected override void MoveRandom()
+    {
+        /*
+         if (Time.time >= nextWanderTime)
+         {
+             // Tạo một hướng lung tung ngẫu nhiên
+             nextWanderTime = Time.time + wanderInterval;
+         }
+         */
+        Vector3 temp = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+        changeAnim(temp - transform.position);
+        myRigidbody.MovePosition(temp);
+        ChangeState(EnemyState.walk);
+    }
 }

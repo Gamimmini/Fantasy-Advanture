@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Mummy : log
 {
+    [Header("Boundary")]
     public Collider2D boundary;
     
     public void CopyBoundaryFromMummyIdle(MummyIdle mummyIdle)
@@ -10,7 +11,7 @@ public class Mummy : log
         boundary = mummyIdle.boundary;
     }
 
-    public override void CheckDistance()
+    protected override void CheckDistance()
     {
         if (boundary.bounds.Contains(target.transform.position)
              && Vector3.Distance(target.position, transform.position) > attackRadius)

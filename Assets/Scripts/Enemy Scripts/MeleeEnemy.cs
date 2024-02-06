@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class MeleeEnemy : log
 {
+    [Header("Movement Patrol Points")]
     public GameObject pointA;
     public GameObject pointB;
     public GameObject pointC;
@@ -10,14 +11,14 @@ public class MeleeEnemy : log
     protected Transform currentPoint;
 
 
-    public override void Start()
+    protected override void Start()
     {
         base.Start();
         currentPoint = pointA.transform;   
     }
-    
-  
-    public override void CheckDistance()
+
+
+    protected override void CheckDistance()
     {
         if (Vector3.Distance(target.position, transform.position) <= chaseRadius
              && Vector3.Distance(target.position, transform.position) > attackRadius)
@@ -42,7 +43,6 @@ public class MeleeEnemy : log
         {
             if (Vector3.Distance(transform.position, currentPoint.position) < 0.1f)
             {
-                // Đến điểm A hoặc B, thực hiện chuyển đổi currentPoint
                 if (currentPoint == pointA.transform)
                 {
                     currentPoint = pointB.transform;

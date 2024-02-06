@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
+    [Header("Room Elements")]
     public Enemy[] enemies;
     public pot[] pots;
     public GameObject virtualCamera;
